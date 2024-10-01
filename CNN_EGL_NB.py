@@ -84,7 +84,7 @@ train_history = model.fit(x=X_Train,
 scores = model.evaluate(X_Test, y_Test)
 print("\t[Info] Accuracy of testing data = {:2.1f}%".format(scores[1]*100.0))
 
-
+print("hello")
 
 
 
