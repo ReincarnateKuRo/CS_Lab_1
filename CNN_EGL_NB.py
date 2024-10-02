@@ -19,6 +19,20 @@ y_Test = np.concatenate((y_Test_mnist, y_Test_emnist), axis=0)
 X_Train = X_Train.reshape(X_Train.shape[0], 28, 28, 1).astype('float32') / 255
 X_Test = X_Test.reshape(X_Test.shape[0], 28, 28, 1).astype('float32') / 255
 
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+
+datagen = ImageDataGenerator(
+    rotation_range=10,  # 隨機旋轉範圍
+    width_shift_range=0.1,  # 隨機水平移動
+    height_shift_range=0.1,  # 隨機垂直移動
+    zoom_range=0.1,  # 隨機縮放
+    horizontal_flip=False  # 不隨機翻轉
+)
+
+datagen.fit(X_Train)
+
+
+
 from keras.utils import to_categorical
 
 y_Train = to_categorical(y_Train, num_classes=62)
@@ -30,8 +44,8 @@ from keras.models import Sequential
 from keras.layers import Dense,Dropout,Flatten,Conv2D,MaxPool2D,BatchNormalization
 
 model = Sequential()
-## 卷積層1
-model.add(Conv2D(filters=16,
+## 卷積層1(預期要增加filter)
+model.add(Conv2D(filters=32,
                  kernel_size=(5,5),
                  padding='same',
                  input_shape=(28,28,1),
@@ -44,7 +58,7 @@ model.add(Conv2D(filters=16,
 model.add(MaxPool2D(pool_size=(2,2), name='max_pooling2d_1'))
 
 ## 卷積層2
-model.add(Conv2D(filters=36,
+model.add(Conv2D(filters=64,
                  kernel_size=(5,5),
                  padding='same',
                  input_shape=(28,28,1),
@@ -56,6 +70,16 @@ model.add(Conv2D(filters=36,
 ## 池化層2
 model.add(MaxPool2D(pool_size=(2,2), name='max_pooling2d_2'))
 
+## 卷積層3
+model.add(Conv2D(filters=128, 
+                 kernel_size=(3, 3), 
+                 padding='same', 
+                 input_shape=(28,28,1),
+                 activation='relu',
+                 name='conv2d_3'))
+## 池化層3
+model.add(MaxPool2D(pool_size=(2, 2),name='max_pooling2d_3'))
+
 ## Dropout1
 model.add(Dropout(0.25, name='dropout_1'))
 
@@ -63,28 +87,33 @@ model.add(Dropout(0.25, name='dropout_1'))
 model.add(Flatten(name='flatten_1'))
 
 ## 隱藏層
-model.add(Dense(128, activation='relu', name='dense_1'))
+model.add(Dense(784, activation='relu', name='dense_1'))
 
 ## dropout2
-model.add(Dropout(0.5, name='dropout_2'))
+model.add(Dropout(0.4, name='dropout_2'))
 
 
-# Modify the output layer to handle all possible classes (e.g., 36 for digits + letters)
+## 輸出層26+26+10=62
 model.add(Dense(62, activation='softmax', name='dense_2'))  # 62 類別
 
+#輸出模型參數
+model.summary()
+print("")
 
+#定義訓練方式
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 
-# Train the model on both MNIST and EMNIST combined dataset
+# 開始訓練
 train_history = model.fit(x=X_Train,
                           y=y_Train, validation_split=0.2,
                           epochs=5, batch_size=300, verbose=1)
 
+#評估模型
 scores = model.evaluate(X_Test, y_Test)
 print("\t[Info] Accuracy of testing data = {:2.1f}%".format(scores[1]*100.0))
 
-print("hello")
+
 
 
 
