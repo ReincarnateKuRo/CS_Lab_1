@@ -1,0 +1,5 @@
+pip install tensorflow
+pip install numpy
+pip install emnist
+pip install matplotlib
+pip install np.utils

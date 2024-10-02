@@ -19,6 +19,7 @@ y_Test = np.concatenate((y_Test_mnist, y_Test_emnist), axis=0)
 X_Train = X_Train.reshape(X_Train.shape[0], 28, 28, 1).astype('float32') / 255
 X_Test = X_Test.reshape(X_Test.shape[0], 28, 28, 1).astype('float32') / 255
 
+#參考
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 datagen = ImageDataGenerator(
