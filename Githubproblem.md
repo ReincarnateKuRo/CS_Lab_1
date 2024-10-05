@@ -58,7 +58,19 @@
 	```
 	git pull origin main --rebase
 	```
-	- 如果推送後發生以下錯誤代表遠端的 `main` 分支已經有一些內容，而你的本地 `main` 分支沒有包含這些內容，因此推送被拒絕了。你需要將遠端的變更合併到本地分支後再進行推送(做完這個步驟後先回到上一個步驟再推送一次，如果失敗則進到下一個步驟)![[Pasted image 20241005182600.png]]
+	- 如果推送後發生以下錯誤代表遠端的 `main` 分支已經有一些內容，而你的本地 `main` 分支沒有包含這些內容，因此推送被拒絕了。你需要將遠端的變更合併到本地分支後再進行推送(做完這個步驟後先回到上一個步驟再推送一次，如果失敗則進到下一個步驟)!
+	```
+	錯誤Hint:
+	D:專案\cs_lab1>git push -u origin main
+    To https://github.com/ReincarnateKuRo/CS_Lab_1.git
+     ! [rejected]        main -> main (fetch first)
+    error: failed to push some refs to 'https://github.com/ReincarnateKuRo/CS_Lab_1.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    ```
 	```
 	git pull origin main --rebase
 	```
@@ -70,7 +82,16 @@
 	```
 	git checkout 不是master的branch
 	```
-	- 刪除本地master分支，**如果顯示以下錯誤請用第二條指令刪除**![[Pasted image 20241005182702.png]]
+	- 刪除本地master分支，**如果顯示以下錯誤請用第二條指令刪除**
+	```
+	錯誤Hint:
+	D:專案\cs_lab1>git branch -d master
+    warning: not deleting branch 'master' that is not yet merged to
+             'refs/remotes/origin/master', even though it is merged to HEAD
+    error: the branch 'master' is not fully merged
+    hint: If you are sure you want to delete it, run 'git branch -D master'
+    hint: Disable this message with "git config advice.forceDeleteBranch false"
+    ```
 	```
 	git branch -d master
 	git branch -D master
