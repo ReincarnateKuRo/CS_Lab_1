@@ -168,8 +168,8 @@ if __name__ == "__main__":
     plotter.show_train_history(train_history, 'loss', 'val_loss')
     
     # 儲存model
-    model.save('hwr_model.h5')
-    model.save_weights('hwr_model.weights.h5')
+    #model.save('hwr_model.h5')
+    #model.save_weights('hwr_model.weights.h5')
 
 
 
